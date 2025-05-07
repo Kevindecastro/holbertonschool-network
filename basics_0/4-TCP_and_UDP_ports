@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 # Ce script affiche les ports d'écoute et leurs programmes associés
-echo "Active Internet connections (only servers)"
 ss -tunlp
 
-echo ""
-echo "Active UNIX domain sockets (only servers)"
 ss -xpl
