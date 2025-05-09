@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
 # Ce script affiche toutes les adresses IPv4 actives sur la machine
 
-# La commande 'ip -4 addr show' affiche toutes les adresses IPv4 (option -4) pour toutes les interfaces réseau
-# Exemple de ligne de sortie : inet 192.168.1.10/24 brd 192.168.1.255 scope global dynamic eth0
-ip -4 addr show \
-
-# On utilise grep pour extraire uniquement les adresses IP en elles-mêmes (en ignorant le masque /24, etc.)
-# -o : affiche uniquement la partie de la ligne qui correspond à l'expression
-# -P : active les expressions régulières Perl
-# (?<=inet\s) : expression qui signifie "après 'inet '"
-# \d+(\.\d+){3} : correspond à un format IPv4 standard (ex : 192.168.0.1)
-| grep -oP '(?<=inet\s)\d+(\.\d+){3}'
+# Obtenir la configuration réseau
+ifconfig | \
+  # Filtrer les lignes contenant les adresses IP
+  grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | \
+  # Extraire uniquement les adresses IP
+  grep -Eo '([0-9]*\.){3}[0-9]*'
