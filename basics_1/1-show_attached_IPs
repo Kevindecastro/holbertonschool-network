@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Ce script affiche toutes les adresses IPv4 actives sur la machine
 
 # La commande 'ip -4 addr show' affiche toutes les adresses IPv4 (option -4) pour toutes les interfaces réseau
