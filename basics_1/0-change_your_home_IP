@@ -2,7 +2,7 @@
 # Ce script modifie le fichier /etc/hosts pour modifier les adresses IP de localhost et facebook.com
 
 # Vérifiez les autorisations root
-if [ "$(id -u)" -ne 0 ]; then
+if [ "$EUID" -ne 0 ]; then
   echo "Please run this script as root (use sudo)"
   exit 1
 fi
@@ -11,7 +11,7 @@ fi
 cp /etc/hosts /etc/hosts.bak
 
 # Supprimer d'éventuelles anciennes entrées
-sed -i '/localhost/d' /etc/hosts
+sed -i '/127\.0\.0\.1\s\+localhost/d' /etc/hosts
 sed -i '/facebook.com/d' /etc/hosts
 
 # Ajouter la nouvelle entrée pour localhost
