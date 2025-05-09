@@ -11,7 +11,8 @@ fi
 cp /etc/hosts /etc/hosts.bak
 
 # Supprimer d'éventuelles anciennes entrées
-sed -i '/127\.0\.0\.1\s\+localhost/d' /etc/hosts
+sed -i '/^127\.0\.0\.1[[:space:]]\+localhost/d' /etc/hosts
+sed -i '/^127\.0\.0\.2[[:space:]]\+localhost/d' /etc/hosts
 sed -i '/facebook.com/d' /etc/hosts
 
 # Ajouter la nouvelle entrée pour localhost
