@@ -1,4 +1,4 @@
-#!/usr/bin/env
+#!/usr/bin/env bash
 
 # Ce script affiche toutes les adresses IPv4 actives sur la machine
 
