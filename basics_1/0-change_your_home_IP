@@ -5,9 +5,8 @@
 cp /etc/hosts /etc/hosts.bak
 
 # Supprimer d'éventuelles anciennes entrées
-sed -i '/^127\.0\.0\.1[[:space:]]\+localhost/d' /etc/hosts
-sed -i '/8.8.8.8[[:space:]]*facebook.com/d' /etc/hosts
-sed -i '/^127\.0\.0\.2[[:space:]]\+localhost/d' /etc/hosts
+sed -i '/localhost/d' /etc/hosts
+sed -i '/facebook.com/d' /etc/hosts
 
 # Ajouter la nouvelle entrée pour localhost
 echo "127.0.0.2 localhost" >> /etc/hosts
