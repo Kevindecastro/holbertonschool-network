@@ -1,0 +1,119 @@
+# 1. Everything's better with a pretty diagram
+
+### **1. DNS Resolution**
+
+* **Representation**: An arrow from the client to a DNS server.
+* **Details**:
+
+  * The client sends a DNS query to resolve the domain name (e.g., `www.example.com`) into an IP address.
+  * The DNS server responds with the IP of the server (or the Load Balancer if configured).
+
+### **2. Request to the Server on the Correct Port**
+
+* **Representation**: An arrow from the client to the IP\:Port (e.g., `443` for HTTPS).
+* **Details**:
+
+  * The client sends an HTTP/HTTPS request to the obtained IP on the appropriate port (80 for HTTP, 443 for HTTPS).
+
+### **3. Encrypted Traffic (HTTPS)**
+
+* **Representation**: A padlock or the mention "TLS/SSL" near the arrow.
+* **Details**:
+
+  * Communication is encrypted using TLS/SSL (HTTPS).
+
+### **4. Passing Through a Firewall**
+
+* **Representation**: A "Firewall" rectangle between the client and the Load Balancer.
+* **Details**:
+
+  * The firewall filters malicious requests and only allows traffic on ports 80/443.
+
+### **5. Load Balancer Distribution**
+
+* **Representation**: A "Load Balancer" node (e.g., Nginx, AWS ALB) distributing traffic to multiple web servers.
+* **Details**:
+
+  * The Load Balancer distributes the traffic load across multiple web servers (e.g., Server 1, Server 2).
+
+### **6. Web Server Response**
+
+* **Representation**: A return arrow from the web server to the Load Balancer.
+* **Details**:
+
+  * The web server (e.g., Apache, Nginx) serves static files (HTML, CSS, JS) or forwards the request to an *Application Server* for dynamic content.
+
+### **7. Page Generation by the Application Server**
+
+* **Representation**: An "App Server" rectangle (e.g., Node.js, Django, Spring Boot) with an arrow from the web server.
+* **Details**:
+
+  * The Application Server executes backend code and generates dynamic HTML.
+
+### **8. Database Query**
+
+* **Representation**: An arrow from the Application Server to a "Database" (e.g., MySQL, PostgreSQL).
+* **Details**:
+
+  * The Application Server queries the DB to fetch data (e.g., list of articles).
+  * The database returns the results.
+
+### **9. Final Response to the Client**
+
+* **Representation**: An arrow completing the loop, from the web server back to the client via the Load Balancer and the Firewall.
+* **Details**:
+
+  * The generated HTML page is sent back to the client through the same reverse path.
+
+---
+
+### **Example Diagram (Simplified Textual Representation)**
+
+```
+Client 
+  │ (1. DNS Request: www.example.com → IP)
+  ▼
+DNS Server
+  │ (Returns Load Balancer IP)
+  ▼
+Client → (2. HTTPS:443) → [Firewall] → [Load Balancer] → [Web Server]
+                                                              │
+                                                              ▼
+                                                        [App Server]
+                                                              │
+                                                              ▼
+                                                        [Database]
+```
+
+### **Tools to Create This Diagram**
+
+* **Mermaid.js**:
+
+  ```mermaid
+  sequenceDiagram
+    participant Client
+    participant DNS
+    participant Firewall
+    participant LoadBalancer
+    participant WebServer
+    participant AppServer
+    participant Database
+    Client->>DNS: Resolve www.example.com
+    DNS-->>Client: Load Balancer IP
+    Client->>Firewall: HTTPS request (port 443)
+    Firewall->>LoadBalancer: Allow traffic
+    LoadBalancer->>WebServer: Distribute request
+    WebServer->>AppServer: Dynamic page request
+    AppServer->>Database: SQL query
+    Database-->>AppServer: Results
+    AppServer-->>WebServer: Generated HTML
+    WebServer-->>LoadBalancer: HTTP response
+    LoadBalancer-->>Firewall: Pass through
+    Firewall-->>Client: Web page
+  ```
+
+### **Key Points to Include**
+
+* **Security**: Firewall + HTTPS
+* **Performance**: Load Balancer + Multiple Servers
+* **3-Tier Architecture**: Web Server → App Server → Database

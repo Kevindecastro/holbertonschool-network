@@ -1,0 +1,124 @@
+## What Happens When You Type [https://www.google.com] in Your Browser and Press Enter?
+
+Whether you're an aspiring software engineer or a seasoned developer, understanding what really happens under the hood when you type a URL into your browser is fundamental. It's a classic interview question — not because it's simple, but because it's comprehensive.
+
+Let’s break down the step-by-step journey of a request to `https://www.google.com`.
+
+---
+
+### 1. **DNS Resolution**
+
+The first step your browser takes is to convert the domain name `www.google.com` into an IP address. This is done through the **Domain Name System (DNS)**.
+
+* The browser checks if the IP address is cached locally.
+* If not, it queries the **OS resolver**, which checks the OS DNS cache.
+* Failing that, the request goes to a **recursive DNS server** (usually provided by your ISP).
+* The recursive server checks root DNS servers, then `.com` TLD servers, and finally Google's authoritative name servers to resolve the domain.
+* Eventually, it gets an IP address like `142.250.190.68`.
+
+---
+
+### 2. **TCP/IP Connection**
+
+With the IP address in hand, the browser establishes a connection using the **Transmission Control Protocol (TCP)** over **Internet Protocol (IP)**.
+
+* This happens via a **3-way TCP handshake**:
+
+  * SYN (client to server)
+  * SYN-ACK (server to client)
+  * ACK (client to server)
+* This sets up a reliable connection over IP.
+
+---
+
+### 3. **Firewall Traversal**
+
+As the packets travel through the network, they may encounter **firewalls** — on your machine, your router, your ISP, or Google’s infrastructure.
+
+* Firewalls inspect and filter traffic based on rules.
+* Port 443 (used by HTTPS) is typically allowed by default.
+* The request must comply with network and security rules to proceed.
+
+---
+
+### 4. **HTTPS and SSL/TLS Handshake**
+
+Since you're connecting via **HTTPS**, the client and server must establish a **secure encrypted channel** using **SSL/TLS**.
+
+* The browser initiates a **TLS handshake**:
+
+  * Client sends supported encryption algorithms.
+  * Server responds with its SSL certificate and chosen algorithm.
+  * Browser verifies the certificate (issued by a trusted CA).
+  * A **session key** is generated using asymmetric cryptography and exchanged securely.
+* Once the handshake completes, all further communication is encrypted.
+
+---
+
+### 5. **Load Balancer**
+
+Your request likely reaches a **load balancer** at Google’s data center.
+
+* The load balancer routes your request to one of many backend servers.
+* It ensures reliability, scalability, and efficient use of resources.
+* Google uses both **hardware and software load balancers**, often globally distributed.
+
+---
+
+### 6. **Web Server**
+
+The load balancer forwards the request to a **web server** like Google’s custom infrastructure (possibly based on technologies like Nginx, Apache, or proprietary systems).
+
+* The web server handles the HTTPS request.
+* It interprets the URL path, headers, cookies, etc.
+* For static content (like HTML or images), it may respond directly.
+
+---
+
+### 7. **Application Server**
+
+For dynamic content (e.g., search results), the request goes deeper — to an **application server**.
+
+* The application server runs business logic.
+* It processes parameters (like your search query), interacts with databases, applies caching, and generates the final HTML response.
+* Google’s application infrastructure is massively scalable and distributed.
+
+---
+
+### 8. **Database Interaction**
+
+In many applications, data must be fetched or updated in a **database**.
+
+* Google might query its massive **index of the web**, stored across distributed databases.
+* Technologies may include Bigtable, Spanner, or custom solutions.
+* The application server queries the database, formats the results, and prepares the response.
+
+---
+
+### 9. **Response Sent Back to Browser**
+
+The application server sends the generated content to the web server, which passes it back through:
+
+* The load balancer
+* The internet
+* Your firewall/router
+* Your browser
+
+Your browser then:
+
+* Decrypts the HTTPS content.
+* Parses the HTML.
+* Makes additional HTTP requests for CSS, JavaScript, and images.
+* Renders the **DOM (Document Object Model)** to show you Google’s search homepage.
+
+---
+
+### Conclusion
+
+When you press Enter after typing `https://www.google.com`, a massive chain of events is triggered — involving multiple systems, protocols, and layers of the internet. This journey, which happens in milliseconds, reflects decades of engineering that power the modern web.
+
+---
+
+## 📌 Blog Post
+
+Read the full blog post here: [My blog on LinkedIn](https://www.linkedin.com/pulse/what-happens-when-you-type-httpswwwgooglecom-your-martins-de-castro-urqxf)
